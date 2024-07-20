@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap');
+
+        body {
+            width: 200px;
+            height: 200px;
+            /* background-color: #ffa310; */
+            background: url("background2.jpg");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+            font-family: 'Quicksand', sans-serif;
+
+        }
+
+
+
+        #parent {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        #headSprint {
+            font-size: 15px;
+            margin-top: 15vw;
+        }
+
+        #txt {
+            outline: none;
+            border: 1px solid white;
+            border-radius: 2px;
+            background-color: transparent;
+            padding: 5px 5px;
+            color: white;
+            margin-bottom: 8vw;
+            margin-top: 5vw;
+            font-family: 'Quicksand', sans-serif;
+
+        }
+
+        #txt::placeholder {
+            font-family: 'Quicksand', sans-serif;
+
+            color: white;
+        }
+
+        #txt:hover {
+            background-color: rgb(69 69 68 / 73%)
+        }
+
+        #btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #btn input {
+            font-family: 'Quicksand', sans-serif;
+            background-color: rgb(255 255 255 / 73%);
+            border: 1px solid white;
+            border-radius: 2px;
+            width: 80px;
+            padding: 5px 5px;
+            margin: 0 5px;
+            transition: all 0.4s;
+
+        }
+
+        #btn input:hover {
+            background-color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="parent">
+        <p id="headSprint">SPRINT READER</p>
+        <input id="txt" type="text" placeholder="Enter">
+        <div id="btn">
+            <input id="read" type="button" value="Read">
+            <input type="button" value="Translate">
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
