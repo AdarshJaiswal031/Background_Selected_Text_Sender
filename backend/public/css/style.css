@@ -52,3 +52,39 @@ textarea:focus {
   border-color: #888;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
+.upload-area {
+  width: 300px;
+  height: 200px;
+  border: 2px dashed #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  transition: border-color 0.3s;
+}
+
+.upload-area.dragging {
+  border-color: #000;
+}
+.uploaded-files {
+  width: 300px;
+  text-align: center;
+}
+
+.uploaded-files ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.uploaded-files li {
+  margin: 10px 0;
+}
+
+.uploaded-files a {
+  text-decoration: none;
+  color: #0066cc;
+}
+
+.uploaded-files a:hover {
+  text-decoration: underline;
+}
