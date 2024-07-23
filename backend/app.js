@@ -55,7 +55,8 @@ io.on("connection", function (socket) {
     });
 
     socket.on("text update", function (data) {
-        socket.broadcast.emit("text update", data);
+        console.log(data)
+        io.emit("text update", data);
         try {
             ncp.writeSync(data);
             console.log("copied successfully")

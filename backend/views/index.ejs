@@ -5,27 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Realtime Notepad</title>
     <link rel="stylesheet" href="/css/style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <div class="upload-area" id="uploadArea">
-      <h2>Drag & Drop Your Files Here</h2>
-    </div>
-    <div class="uploaded-files" id="uploadedFiles">
-      <h3>Uploaded Files</h3>
-      <ul id="filesList"></ul>
-    </div>
     <div class="container">
-      <h1>Real-time Notepad</h1>
-
-      <textarea id="notepad" placeholder="Start typing..." rows="4"></textarea>
-      <button id="send">Send</button>
-      <button id="copy">Copy</button>
+      <div class="tabs">
+        <button id="msgTab" class="tab-button active" data-tab="messages">
+          Messages
+        </button>
+        <button id="filesTab" class="tab-button" data-tab="files">Files</button>
+      </div>
+      <div id="messages" class="tab-content active">
+        <div id="messageInputSection">
+          <input
+            type="text"
+            id="notepad"
+            placeholder="Start typing or paste file to upload"
+          />
+          <div id="messageBtn">
+            <button id="send">
+              <i class="ri-arrow-right-double-fill"></i>
+            </button>
+          </div>
+        </div>
+        <div id="messageOutputSection">
+          <ul id="messageList"></ul>
+        </div>
+      </div>
+      <div id="files" class="tab-content">
+        <div class="upload-area" id="uploadArea">
+          <h2>Drag & Drop or Click</h2>
+          <input
+            type="file"
+            id="fileInput"
+            style="display: none"
+            onchange="handleFileUpload(event)"
+          />
+        </div>
+        <div class="uploaded-files" id="uploadedFiles">
+          <ul id="filesList"></ul>
+        </div>
+      </div>
     </div>
+    <script
+      src="https://cdn.socket.io/4.7.5/socket.io.min.js"
+      integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO"
+      crossorigin="anonymous"
+    ></script>
+    <script src="/js/script.js"></script>
   </body>
-  <script
-    src="https://cdn.socket.io/4.7.5/socket.io.min.js"
-    integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO"
-    crossorigin="anonymous"
-  ></script>
-  <script src="/js/script.js"></script>
 </html>
