@@ -13,6 +13,7 @@ const fs = require("fs");
 const qrcode = require('qrcode-terminal');
 const ipAddress = getLocalIPv4(); // Use the function to get the IP address
 const port = 3000;
+const uploadsPath = "public/uploads"
 app.use(cors({
     origin: '*', // Allow all origins
 }));
@@ -37,7 +38,7 @@ function getLocalIPv4() {
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads/');
+        cb(null, `${uploadsPath}/`);
     },
     filename: (req, file, cb) => {
         cb(null, `${Date.now()}-${file.originalname}`);
@@ -65,7 +66,7 @@ io.on("connection", function (socket) {
     });
 
     socket.on("file upload", () => {
-        fs.readdir('uploads/', (err, files) => {
+        fs.readdir(`${uploadsPath}/`, (err, files) => {
             if (err) {
                 return;
             }
@@ -95,7 +96,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
 });
 
 app.get('/files', (req, res) => {
-    fs.readdir('uploads/', (err, files) => {
+    fs.readdir(`${uploadsPath}/`, (err, files) => {
         if (err) {
             return res.status(500).send('Unable to scan files.');
         }
@@ -105,14 +106,14 @@ app.get('/files', (req, res) => {
 
 app.delete('/delete/:filename', (req, res) => {
     const filename = req.params.filename;
-    const filePath = path.join(__dirname, 'uploads', filename);
+    const filePath = path.join(__dirname, uploadsPath, filename);
 
     fs.unlink(filePath, (err) => {
         if (err) {
             console.error('Error deleting file:', err);
             return res.status(500).send('Error deleting file.');
         }
-        io.emit('files update');  // Notify all clients about the file deletion
+        io.emit('file upload');  // Notify all clients about the file deletion
         res.send('File deleted successfully.');
     });
 });

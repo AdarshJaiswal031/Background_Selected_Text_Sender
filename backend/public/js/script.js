@@ -115,5 +115,29 @@ function deleteFile(file) {
         });
 }
 
+notepad.addEventListener('paste', (event) => {
+    const items = (event.clipboardData || event.originalEvent.clipboardData).items;
+    for (const item of items) {
+        if (item.kind === 'file') {
+            const file = item.getAsFile();
+            const formData = new FormData();
+            formData.append('file', file);
+
+            fetch('/upload', {
+                method: 'POST',
+                body: formData,
+            })
+                .then((response) => response.text())
+                .then((data) => {
+                    alert(data);
+                    socket.emit('files update');  // Notify the server to update the file list
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+    }
+});
+
 // Load files initially
 loadFiles();
