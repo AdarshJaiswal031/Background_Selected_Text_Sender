@@ -1,12 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+
+
 }
 html,
 body {
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap:2vw;
 }
 body {
   font-family: "Georgia", serif;
@@ -47,6 +53,8 @@ body::-webkit-scrollbar {
   /* max-width: 800px; */
   height: 500px; /* Set minimum height to avoid layout shift */
   overflow: hidden;
+  font-family: "Roboto", sans-serif;
+  font-style: normal;
 }
 
 h1 {
@@ -281,6 +289,56 @@ transition: 0.5s all;
   transition: 0.5s all;
 
 }
+
+.grey-btn{
+  background-color: #2b2b2b;
+}
+.grey-btn:hover{
+  background-color: #444444;
+
+}
+
+/* FileSocket Text Animation */
+/* Container for FileSocket text */
+.filesocket-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 10vh;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+/* FileSocket text with shiny steel effect */
+.filesocket-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 3vw;
+  color: #c9c8c8; /* Grey color */
+  letter-spacing: 1px;
+  font-family: "Orbitron", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+/* Keyframes for shiny effect */
+
+@keyframes glow {
+  0% { text-shadow: 0 0 15px rgba(3, 184, 3, 0.9), 0 0 25px rgba(3, 184, 3, 0.7), 0 0 35px rgba(3, 184, 3, 0.5); }
+  50% { text-shadow: 0 0 25px rgba(3, 184, 3, 0.8), 0 0 35px rgba(3, 184, 3, 0.6), 0 0 45px rgba(3, 184, 3, 0.4); }
+  100% { text-shadow: 0 0 15px rgba(3, 184, 3, 0.9), 0 0 25px rgba(3, 184, 3, 0.7), 0 0 35px rgba(3, 184, 3, 0.5); }
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+
+#socketIcon {
+  color: rgb(9, 255, 9);
+  animation: glow 1.5s ease-in-out infinite, blink 1s step-start infinite;
+}
+
 @media only screen and (max-width: 600px) {
   #messageInputSection{
     flex-direction: column;
@@ -298,11 +356,7 @@ transition: 0.5s all;
   #send{
     width: 100%;
   }
-}
-.grey-btn{
-  background-color: #2b2b2b;
-}
-.grey-btn:hover{
-  background-color: #444444;
-
+  .filesocket-text{
+    font-size: 5vw;
+  }
 }

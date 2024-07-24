@@ -91,11 +91,10 @@ app.post("/clipboard", function (req, res) {
     }
 });
 
-app.post('/upload', upload.single('file'), (req, res) => {
-    io.emit('files update');  // Notify all clients about the new file
-    res.send('File uploaded successfully.');
+app.post('/upload', upload.array('files[]'), (req, res) => {
+    io.emit('files update');  // Notify all clients about the new files
+    res.send('Files uploaded successfully.');
 });
-
 app.get('/files', (req, res) => {
     fs.readdir(`${uploadsPath}/`, (err, files) => {
         if (err) {

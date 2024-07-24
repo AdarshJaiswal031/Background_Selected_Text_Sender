@@ -11,6 +11,13 @@
     />
   </head>
   <body>
+    <div class="filesocket-container">
+      <div class="filesocket-text">
+        <span>FILE</span>
+        <span><i class="ri-plug-2-line" id="socketIcon"></i></span>
+        <span>SOCKET</span>
+      </div>
+    </div>
     <div class="container">
       <div class="tabs">
         <button id="msgTab" class="tab-button active" data-tab="messages">
@@ -43,6 +50,7 @@
             id="fileInput"
             style="display: none"
             onchange="handleFileUpload(event)"
+            multiple
           />
         </div>
         <div class="uploaded-files" id="uploadedFiles">

@@ -51,11 +51,21 @@ socket.on("text update", function (data) {
     copyButton.classList.add('copy-btn');
     copyButton.classList.add('grey-btn');
     copyButton.addEventListener('click', () => {
-        navigator.clipboard.writeText(data).then(() => {
-            console.log("Text copied!!");
-        }).catch(err => {
-            console.error('Error copying text: ', err);
-        });
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(data).then(() => {
+                console.log("Text copied!!");
+            }).catch(err => {
+                console.error('Error copying text: ', err);
+            });
+        }
+        else {
+            const input = document.createElement('textarea')
+            input.value = data
+            document.body.appendChild(input)
+            input.select()
+            document.execCommand('copy')
+            document.body.removeChild(input)
+        }
     });
 
     const deleteButton = document.createElement('button');
@@ -69,17 +79,9 @@ socket.on("text update", function (data) {
     listItem.appendChild(copyButton);
     listItem.appendChild(deleteButton);
     console.log(listItem)
-    messageList.appendChild(listItem);
+    messageList.prepend(listItem);
 });
 
-// Copy text from notepad to clipboard
-// copy.addEventListener("click", function () {
-//     navigator.clipboard.writeText(notepad.value).then(() => {
-//         console.log("Text copied!!");
-//     }).catch(err => {
-//         console.error('Error copying text: ', err);
-//     });
-// });
 
 // Handle file uploads
 uploadArea.addEventListener('dragover', (event) => {
@@ -97,7 +99,10 @@ uploadArea.addEventListener('drop', (event) => {
 
     const files = event.dataTransfer.files;
     const formData = new FormData();
-    formData.append('file', files[0]);
+
+    for (let i = 0; i < files.length; i++) {
+        formData.append('files[]', files[i]);
+    }
 
     fetch('/upload', {
         method: 'POST',
@@ -113,14 +118,18 @@ uploadArea.addEventListener('drop', (event) => {
         });
 });
 
+
 uploadArea.addEventListener("click", function (event) {
     document.getElementById('fileInput').click()
 })
 function handleFileUpload(event) {
-    const file = event.target.files[0];
+    const files = event.target.files;
     const formData = new FormData();
-    formData.append('file', file)
 
+    // Append each file to the FormData object
+    for (let i = 0; i < files.length; i++) {
+        formData.append('files[]', files[i]);
+    }
 
     fetch('/upload', {
         method: 'POST',
@@ -135,6 +144,7 @@ function handleFileUpload(event) {
             console.error('Error:', error);
         });
 }
+
 // Receive and display files
 socket.on('files update', () => {
     loadFiles();
@@ -218,27 +228,31 @@ function deleteFile(file) {
 // Handle pasting files into the notepad
 notepad.addEventListener('paste', (event) => {
     const items = (event.clipboardData || event.originalEvent.clipboardData).items;
+    const formData = new FormData();
+
     for (const item of items) {
         if (item.kind === 'file') {
             const file = item.getAsFile();
-            const formData = new FormData();
-            formData.append('file', file);
-
-            fetch('/upload', {
-                method: 'POST',
-                body: formData,
-            })
-                .then((response) => response.text())
-                .then((data) => {
-                    alert(data);
-                    socket.emit('files update');  // Notify the server to update the file list
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
+            formData.append('files[]', file);
         }
     }
+
+    if (formData.has('files[]')) {
+        fetch('/upload', {
+            method: 'POST',
+            body: formData,
+        })
+            .then((response) => response.text())
+            .then((data) => {
+                alert(data);
+                socket.emit('files update');  // Notify the server to update the file list
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
 });
+
 
 // Load files initially
 loadFiles();
