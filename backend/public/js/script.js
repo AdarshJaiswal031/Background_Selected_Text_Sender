@@ -212,7 +212,7 @@ function loadFiles() {
 }
 
 function deleteFile(file) {
-    fetch(`/delete/${file}`, {
+    fetch(`/files/${file}`, {
         method: 'DELETE',
     })
         .then((response) => response.text())
