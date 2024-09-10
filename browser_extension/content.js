@@ -9,16 +9,7 @@ document.addEventListener("keydown", function (event) {
             let selectedText = window.getSelection().toString()
             console.log(selectedText)
             sendTextToClipboard(selectedText)
-            // if (speechTrue) {
-            //     const utterance = new SpeechSynthesisUtterance(selectedText)
-            //     utterance.onend = function (event) {
-            //         speeechTrue = false
-            //     }
-            //     window.speechSynthesis.speak(utterance)
-            // }
-            // else {
-            //     window.speechSynthesis.cancel()
-            // }
+
         }
     }
 })
