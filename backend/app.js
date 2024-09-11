@@ -13,6 +13,11 @@ const ipAddress = getLocalIPv4();
 const port = 3000;
 const uploadsPath = "public/uploads"
 const { handleSocketRequest } = require("./controllers/socketController")
+const { GlobalKeyboardListener } = require('node-global-key-listener');
+const v = new GlobalKeyboardListener();
+const screenshot = require('screenshot-desktop');
+const axios = require('axios');
+const FormData = require('form-data');
 
 //------------------- mvc imports ------------------
 const filesRouter = require("./routes/files")
@@ -52,7 +57,36 @@ app.use("/clipboard", clipboardRouter)
 app.use("/upload", uploadRouter)
 app.use("/files", filesRouter)
 
+//------------ HANDLE KEYPRESS -----------
+v.addListener(async function (e, down) {
+    if (e.state == "DOWN" && e.name == "P" && (down["LEFT ALT"] || down["RIGHT ALT"])) {
+        console.log("pressed")
+        await captureAndUploadScreenshot()
+        return true;
+    }
+});
 
+//------------ utils function ---------
+async function captureAndUploadScreenshot() {
+    try {
+        const img = await screenshot();
+        const filePath = path.join(__dirname, 'screenshot.jpg');
+        fs.writeFileSync(filePath, img);
+
+        const form = new FormData();
+        form.append('files[]', fs.createReadStream(filePath));
+
+        const response = await axios.post('http://localhost:3000/upload', form, {
+            headers: {
+                ...form.getHeaders()
+            }
+        });
+
+        console.log(response.data);
+    } catch (error) {
+        console.error('Error uploading screenshot:', error);
+    }
+}
 server.listen(port, () => {
     console.log(`Server is running on port ${port}`);
     const url = `http://${ipAddress}:${port}`;
@@ -62,3 +96,4 @@ server.listen(port, () => {
         console.log(qrCode);
     });
 });
+

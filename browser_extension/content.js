@@ -1,6 +1,7 @@
 let speechTrue = false
 console.log(document)
-document.addEventListener("keydown", function (event) {
+document.addEventListener("keydown", async function (event) {
+    console.log(event.key)
     if (event.altKey && event.key == 'r') {
         console.log("Hello")
         speechTrue = speechTrue ? false : true
@@ -31,3 +32,8 @@ function sendTextToClipboard(text) {
             console.error('Error:', error);
         });
 }
+
+
+
+
+
